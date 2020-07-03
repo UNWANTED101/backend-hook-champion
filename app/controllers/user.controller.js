@@ -1,7 +1,7 @@
 exports.allAcess = ( req, res)=> {
     res.status(200).send({
       
-        message : "List of Arcitles"
+        message : "List of Champion"
     });
 };
 

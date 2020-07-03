@@ -1,5 +1,5 @@
 const db = require("../models");
-const Article =db.articles;
+const Champion =db.champions;
 const User = db.user;
 const Op = db.Sequelize.Op;
 const sequelize = db.sequelize;
@@ -17,15 +17,16 @@ exports.create = (req, res) => {
     }
 
     //create object field
-    const article = {
+    const champion = {
         title :  req.body.title,
         description : req.body.description,
+        peran : req.body.peran,
         published: req.body.published ? req.body.published : false,
         userId : req.body.userId
     };
 
     //save
-    Article.create(article)
+    Champion.create(champion)
     .then(
         data => {
 
@@ -46,7 +47,7 @@ exports.findAll = (req, res) => {
     const title =  req.query.title;
     var condition = title ? {title : {[Op.like] : `%${title}%`}} :  null;
 
-    Article.findAll({where : condition})
+    Champion.findAll({where : condition})
     .then( data => {
         res.send(data);
     })
@@ -64,7 +65,7 @@ exports.findAll = (req, res) => {
 exports.findOne =  (req, res) => {
     const id = req.params.id;
 
-    Article.findByPk(id)
+    Champion.findByPk(id)
     .then(data => {
         res.send(data);
         })
@@ -81,20 +82,20 @@ exports.findOne =  (req, res) => {
 exports.update =  (req, res) => {
     const id = req.params.id;
 
-    Article.update(req.body,{
+    Champion.update(req.body,{
         where : {id : id}
     })
     .then(num => {
         if (num == 1) {
             res.send({
                 status : true,
-                message : "Article was updated successfully !"
+                message : "Champion was updated successfully !"
             });
         } else {
             res.send({
                 status : false,
-                message : `Cannot update Article with id= ${id}. 
-                Maybe article was not found or request is empty.
+                message : `Cannot update Champion with id= ${id}. 
+                Maybe champion was not found or request is empty.
                 `
             });
         }
@@ -102,7 +103,7 @@ exports.update =  (req, res) => {
     .catch(err => {
         res.status(500).send({
             status : false,
-            message : `Error updating Article with id = ${id}`
+            message : `Error updating Champion with id = ${id}`
         });
     })
 };
@@ -111,20 +112,20 @@ exports.update =  (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Article.destroy({
+    Champion.destroy({
         where : {id : id}
     })
     .then(num => {
         if (num == 1) {
             res.send({
                 status : true,
-                message : "Article was deleted successfully !"
+                message : "Champion was deleted successfully !"
             });
         } else {
             res.send({
                 status : false,
-                message : `Cannot delete Article with id= ${id}. 
-                Maybe article was not found or request is empty.
+                message : `Cannot delete Champion with id= ${id}. 
+                Maybe champion was not found or request is empty.
                 `
             });
         }
@@ -132,7 +133,7 @@ exports.delete = (req, res) => {
     .catch(err => {
         res.status(500).send({
             status : false,
-            message : `Error deleting Article with id = ${id}`
+            message : `Error deleting Champion with id = ${id}`
         });
     })
 };
@@ -141,20 +142,20 @@ exports.delete = (req, res) => {
 exports.deleteUser = (req, res) => {
     const id = req.params.id;
 
-    Article.destroy({
+    Champion.destroy({
         where : {userId : id}
     })
     .then(num => {
         if (num == 1) {
             res.send({
                 status : true,
-                message : "Articles  was deleted successfully !"
+                message : "Champions  was deleted successfully !"
             });
         } else {
             res.send({
                 status : false,
-                message : `Cannot delete Article with id= ${id}. 
-                Maybe article was not found or request is empty.
+                message : `Cannot delete Champion with id= ${id}. 
+                Maybe champion was not found or request is empty.
                 `
             });
         }
@@ -162,37 +163,37 @@ exports.deleteUser = (req, res) => {
     .catch(err => {
         res.status(500).send({
             status : false,
-            message : `Error deleting Article with id = ${id}`
+            message : `Error deleting Champion with id = ${id}`
         });
     })
 };
 
 // delete all 
 exports.deleteAll =  (req, res) => {
-    Article.destroy({
+    Champion.destroy({
         where : {},
         truncate : false
     })
     .then(nums => {
         res.send({
             status : true,
-            message : `${nums} Articles were deleted successfully`
+            message : `${nums} Champions were deleted successfully`
         });
 
     })
     .catch(err => {
         res.status(500).send({
             status :false,
-            message : err.message || `Some error occured while removing all articless`
+            message : err.message || `Some error occured while removing all championss`
         });
     });
 };
 
 //find all published
 exports.findAllPublished = (req, res) => {
-    User.hasMany(Article, {foreignKey: 'id'})
-    Article.belongsTo(User, {foreignKey: 'userId'})
-    Article.findAll({where : {published :  true}, include: [{ model: User, attributes: ['username'] }]},{raw: true})
+    User.hasMany(Champion, {foreignKey: 'id'})
+    Champion.belongsTo(User, {foreignKey: 'userId'})
+    Champion.findAll({where : {published :  true}, include: [{ model: User, attributes: ['username'] }]},{raw: true})
     .then( data => {
         const dat = data.map(dt => {
             //tidy up the user data
@@ -202,6 +203,7 @@ exports.findAllPublished = (req, res) => {
                 id: dt.id,
                 title: dt.title,
                 description: dt.description,
+                peran: dt.peran,
                 username :  dt.user.username,
                 createdAt : new Intl.DateTimeFormat("en-US", {
                     year: "numeric",
@@ -227,7 +229,7 @@ exports.findAllPublished = (req, res) => {
     })
     .catch( err => {
         res.status(500).send({
-            message :  err.message ||  `Some error occured while removing all articles`
+            message :  err.message ||  `Some error occured while removing all champions`
         });
     });
 };
@@ -235,13 +237,13 @@ exports.findAllPublished = (req, res) => {
 //find all by user
 exports.findAllUser = (req, res) => {
     const userId = req.params.id;
-    Article.findAll({where : {userId :  userId}})
+    Champion.findAll({where : {userId :  userId}})
     .then( data => {
         res.send(data);
     })
     .catch( err => {
         res.status(500).send({
-            message :  err.message ||  `Some error occured while removing all articles`
+            message :  err.message ||  `Some error occured while removing all champions`
         });
     });
 };
@@ -249,11 +251,11 @@ exports.findAllUser = (req, res) => {
 
 
 //find all published
-exports.findArticleUser = (req, res) => {
-    User.hasMany(Article, {foreignKey: 'id'})
-    Article.belongsTo(User, {foreignKey: 'userId'})
-    Article.findAll({attributes: ['title', sequelize.fn('COUNT', sequelize.col('userId'))], include: [{ model: User, attributes: ['username'] }], 
-    group: ['userId','title','description']},{raw: true})
+exports.findChampionUser = (req, res) => {
+    User.hasMany(Champion, {foreignKey: 'id'})
+    Champion.belongsTo(User, {foreignKey: 'userId'})
+    Champion.findAll({attributes: ['title', sequelize.fn('COUNT', sequelize.col('userId'))], include: [{ model: User, attributes: ['username'] }], 
+    group: ['userId','title','description','peran']},{raw: true})
     .then( data => {
         const dat = data.map(dt => {
             //tidy up the user data
@@ -263,6 +265,7 @@ exports.findArticleUser = (req, res) => {
                 id: dt.id,
                 title: dt.title,
                 description: dt.description,
+                peran:dt.peran,
                 username :  dt.user.username,
                 createdAt : new Intl.DateTimeFormat("en-US", {
                     year: "numeric",
@@ -288,7 +291,7 @@ exports.findArticleUser = (req, res) => {
     })
     .catch( err => {
         res.status(500).send({
-            message :  err.message ||  `Some error occured while removing all articles`
+            message :  err.message ||  `Some error occured while removing all champions`
         });
     });
 };

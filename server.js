@@ -6,8 +6,9 @@ const path = require('path');
 const app = express();
 
 var corsOptions = {
-  //origin: "https://article-irfan.herokuapp.com"
-  origin:"http://spotty-nail.surge.sh"
+  //origin: "https://champion-irfan.herokuapp.com"
+  //origin:"http://spotty-nail.surge.sh"
+  origin:"http://localhost:8081"
 };
 
 
@@ -30,7 +31,7 @@ app.get("/", (req, res) => {
 // routes
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
-require('./app/routes/article.routes') (app);
+require('./app/routes/champion.routes') (app);
 require('./app/routes/upload.routes') (app);
 
 global.__basedir = __dirname;
@@ -38,7 +39,7 @@ app.use(express.static(__basedir+'/resources'));
 
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8069;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

@@ -26,7 +26,7 @@ db.sequelize = sequelize;
 
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
-db.articles = require("../models/article.model.js")(sequelize, Sequelize);
+db.champions = require("../models/champion.model.js")(sequelize, Sequelize);
 db.images = require("../models/image.model.js")(sequelize, Sequelize);
 
 
@@ -40,8 +40,8 @@ db.user.belongsToMany(db.role, {
   foreignKey: "userId",
   otherKey: "roleId"
 });
-db.user.hasMany(db.articles, {as : "articles"});
-db.articles.belongsTo(db.articles,{
+db.user.hasMany(db.champions, {as : "champions"});
+db.champions.belongsTo(db.champions,{
   foreignKey :"userId",
   as : "user",
 });

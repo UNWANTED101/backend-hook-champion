@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `articles`
+-- Table structure for table `champions`
 --
 
-DROP TABLE IF EXISTS `articles`;
+DROP TABLE IF EXISTS `champions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `articles` (
+CREATE TABLE `champions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
@@ -32,18 +32,18 @@ CREATE TABLE `articles` (
   `userId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
-  CONSTRAINT `articles_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  CONSTRAINT `champions_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `articles`
+-- Dumping data for table `champions`
 --
 
-LOCK TABLES `articles` WRITE;
-/*!40000 ALTER TABLE `articles` DISABLE KEYS */;
-INSERT INTO `articles` VALUES (1,'irfan91 test','irfan91 test',1,'2020-06-22 08:59:22','2020-06-22 08:59:59',1),(2,'irfan91 test 2','irfan91 test 2',1,'2020-06-22 08:59:45','2020-06-22 09:00:07',1),(3,'irfan92 test','irfan92 test',0,'2020-06-22 09:00:58','2020-06-22 09:00:58',2),(4,'irfan92 test 2','irfan92 test 2',0,'2020-06-22 09:01:18','2020-06-22 09:01:18',2),(5,'irfan92 test 3','irfan92 test 3',1,'2020-06-22 09:01:33','2020-06-22 09:01:41',2),(6,'sa','tets',0,'2020-06-23 13:10:43','2020-06-23 13:10:43',1);
-/*!40000 ALTER TABLE `articles` ENABLE KEYS */;
+LOCK TABLES `champions` WRITE;
+/*!40000 ALTER TABLE `champions` DISABLE KEYS */;
+INSERT INTO `champions` VALUES (1,'irfan91 test','irfan91 test',1,'2020-06-22 08:59:22','2020-06-22 08:59:59',1),(2,'irfan91 test 2','irfan91 test 2',1,'2020-06-22 08:59:45','2020-06-22 09:00:07',1),(3,'irfan92 test','irfan92 test',0,'2020-06-22 09:00:58','2020-06-22 09:00:58',2),(4,'irfan92 test 2','irfan92 test 2',0,'2020-06-22 09:01:18','2020-06-22 09:01:18',2),(5,'irfan92 test 3','irfan92 test 3',1,'2020-06-22 09:01:33','2020-06-22 09:01:41',2),(6,'sa','tets',0,'2020-06-23 13:10:43','2020-06-23 13:10:43',1);
+/*!40000 ALTER TABLE `champions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
