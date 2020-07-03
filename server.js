@@ -7,8 +7,8 @@ const app = express();
 
 var corsOptions = {
   //origin: "https://champion-irfan.herokuapp.com"
-  //origin:"http://spotty-nail.surge.sh"
-  origin:"http://localhost:8081"
+  origin:"http://rainy-experience.surge.sh"
+  //origin:"http://localhost:8081"
 };
 
 
